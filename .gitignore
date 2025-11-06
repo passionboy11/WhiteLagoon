@@ -1,5 +1,25 @@
+.idea/
 bin/
 obj/
 /packages/
 riderModule.iml
 /_ReSharper.Caches/
+ IDE files
+.idea/
+
+# Build output
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+*.cache
+*.log
+*.vs/
+
+# Temporary files
+*.tmp
+*.temp
+
+.DS_Store

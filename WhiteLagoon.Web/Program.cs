@@ -1,7 +1,16 @@
+using Microsoft.EntityFrameworkCore;
+using WhiteLagoon.Infrastructure.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+string cs = builder.Configuration.GetConnectionString("DefaultConnection");
+
+builder.Services.AddDbContextPool<ApplicationDbContext>(options =>
+    options.UseMySql(cs,ServerVersion.AutoDetect(cs)));
+
 
 var app = builder.Build();
 
