@@ -16,4 +16,8 @@
       <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="9.0.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\WhiteLagoon.Domain\WhiteLagoon.Domain.csproj" />
+    </ItemGroup>
+
 </Project>

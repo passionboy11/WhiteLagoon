@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using WhiteLagoon.Application.Common.Interfaces;
 using WhiteLagoon.Infrastructure.Data;
+using WhiteLagoon.Infrastructure.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +12,7 @@ string cs = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContextPool<ApplicationDbContext>(options =>
     options.UseMySql(cs,ServerVersion.AutoDetect(cs)));
-
+builder.Services.AddScoped<IVillaRepository, VillaRepository>();
 
 var app = builder.Build();
 

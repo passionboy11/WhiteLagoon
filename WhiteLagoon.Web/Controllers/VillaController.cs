@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using WhiteLagoon.Application.Common.Interfaces;
 using WhiteLagoon.Domain.Entities;
 using WhiteLagoon.Infrastructure.Data;
 
@@ -6,15 +7,15 @@ namespace WhiteLagoon.Web.Controllers;
 
 public class VillaController : Controller
 {
-    private readonly ApplicationDbContext _context;
+    private readonly IVillaRepository  _repository; 
 
-    public VillaController(ApplicationDbContext context)
+    public VillaController(IVillaRepository repository)
     {
-        _context = context;
+        _repository = repository;
     }
     public IActionResult Index()
     {
-        var villas = _context.Villas.ToList();  
+        var villas = _repository.GetAll();  
         return View(villas);
     }
 
@@ -32,8 +33,8 @@ public class VillaController : Controller
         }
         if (ModelState.IsValid)
         {
-            _context.Villas.Add(obj);
-            _context.SaveChanges();
+            _repository.Add(obj);
+            _repository.Save();
             TempData["success"] = "Villa created successfully";
             return RedirectToAction("Index","Villa");
         }
@@ -43,7 +44,7 @@ public class VillaController : Controller
     public IActionResult Update(int villaId)
     {
         // linq expression
-        Villa? obj = _context.Villas.FirstOrDefault(u=>u.Id == villaId);
+        Villa? obj = _repository.Get(u=>u.Id == villaId);
         if (obj == null)
             return  RedirectToAction("Error","Home");
         
@@ -55,8 +56,8 @@ public class VillaController : Controller
     {
         if (ModelState.IsValid && obj.Id > 0)
         {
-            _context.Villas.Update(obj);
-            _context.SaveChanges();
+            _repository.Update(obj);
+            _repository.Save();
             TempData["success"] = "Villa updated successfully";
             return RedirectToAction("Index","Villa");
         }
@@ -66,7 +67,7 @@ public class VillaController : Controller
     public IActionResult Delete(int villaId)
     {
         // linq expression 
-        Villa? obj = _context.Villas.FirstOrDefault(u=>u.Id == villaId);
+        Villa? obj = _repository.Get(u=>u.Id == villaId);
         if (obj == null)
             return  RedirectToAction("Error","Home");
         
@@ -76,11 +77,11 @@ public class VillaController : Controller
     [HttpPost]
     public IActionResult Delete(Villa obj)
     {
-        Villa? objFromDb = _context.Villas.FirstOrDefault(u=>u.Id == obj.Id); 
+        Villa? objFromDb = _repository.Get(u=>u.Id == obj.Id); 
         if (objFromDb is not null)
         {
-            _context.Villas.Remove(objFromDb);
-            _context.SaveChanges();
+            _repository.Remove(objFromDb);
+            _repository.Save();
             TempData["success"] = "Villa deleted successfully";
             return RedirectToAction("Index","Villa");
         }
