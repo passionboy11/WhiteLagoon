@@ -19,9 +19,5 @@ public class VillaRepository:Repository<Villa>,IVillaRepository
     {
         _context.Villas.Update(entity);
     }
-
-    public void Save()
-    {
-        _context.SaveChanges();
-    }
+    
 }

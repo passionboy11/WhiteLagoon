@@ -12,7 +12,7 @@ string cs = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContextPool<ApplicationDbContext>(options =>
     options.UseMySql(cs,ServerVersion.AutoDetect(cs)));
-builder.Services.AddScoped<IVillaRepository, VillaRepository>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 var app = builder.Build();
 
